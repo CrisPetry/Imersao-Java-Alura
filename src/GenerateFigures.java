@@ -21,7 +21,7 @@ public class GenerateFigures {
 		Graphics2D graphics = (Graphics2D) novaImagem.getGraphics();
 		graphics.drawImage(imgOriginal, 0, 0, null);
 
-		var fonte = new Font(Font.SANS_SERIF, Font.BOLD, 72);
+		var fonte = new Font("Comic Sans MS", Font.PLAIN, 72);
 		graphics.setFont(fonte);
 
 		graphics.drawString("TESTE", largura / 2 - 100, novaAltura - 100);

@@ -1,43 +1,28 @@
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
-import java.util.Map;
 
 public class App {
 	public static void main(String[] args) throws Exception {
 
-		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java/api/MostPopularTVs.json";
+		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java/api/NASA-APOD-JamesWebbSpaceTelescope.json";
 
-		URI adress = URI.create(url);
-		var client = HttpClient.newHttpClient();
-		var request = HttpRequest.newBuilder(adress).GET().build();
-		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-		String body = response.body();
+		var http = new ClienteHTTP();
+		String json = http.buscaDados(url);
+		ExtratorDeConteudoNasa extractNasa = new ExtratorDeConteudoNasa();
+		List<Conteudo> conteudos = extractNasa.extractContent(json);
 
-		var parser = new JSONParser();
-		List<Map<String, String>> listaDeFilmes = parser.parse(body);
+		var generate = new GenerateFigures();
 
-		var generateFigures = new GenerateFigures();
+		for (int i = 0; i < 3; i++) {
+			Conteudo conteudo = conteudos.get(i);
 
-		for (Map<String, String> filme : listaDeFilmes) {
+			InputStream inputStream = new URL(conteudo.getUrlImg()).openStream();
+			String fileName = "saida/" + conteudo.getTitulo() + ".png";
 
-			String urlImg = filme.get("image");
-			String titulo = filme.get("title");
+			generate.create(inputStream, fileName);
 
-			InputStream inputStream = new URL(urlImg).openStream();
-			String nomeArquivo = titulo + ".png";
-
-			generateFigures.create(inputStream, nomeArquivo);
-
-			System.out.println(titulo + "\n");
-
-			inputStream.close();
-
+			System.out.println(conteudo.getTitulo());
 		}
 
 	}

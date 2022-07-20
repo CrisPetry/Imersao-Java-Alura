@@ -1,3 +1,7 @@
 /App.class
 /GenerateFigures.class
 /JSONParser.class
+/Conteudo.class
+/ClienteHTTP.class
+/ExtratorDeConteudoNasa.class
+/ExtratorDeConteudoIMDB.class
