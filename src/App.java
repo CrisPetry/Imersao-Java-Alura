@@ -6,11 +6,12 @@ public class App {
 	public static void main(String[] args) throws Exception {
 
 		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java/api/NASA-APOD-JamesWebbSpaceTelescope.json";
+//		String url = "https://api.mocki.io/v2/549a5d8b/MostPopularMovies";
 
 		var http = new ClienteHTTP();
 		String json = http.buscaDados(url);
-		ExtratorDeConteudoNasa extractNasa = new ExtratorDeConteudoNasa();
-		List<Conteudo> conteudos = extractNasa.extractContent(json);
+		ExtratorDeConteudo extract = new ExtratorDeConteudoNasa();
+		List<Conteudo> conteudos = extract.extractContent(json);
 
 		var generate = new GenerateFigures();
 
