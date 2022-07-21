@@ -5,17 +5,18 @@ import java.util.List;
 public class App {
 	public static void main(String[] args) throws Exception {
 
-		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java/api/NASA-APOD-JamesWebbSpaceTelescope.json";
+//		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java/api/NASA-APOD-JamesWebbSpaceTelescope.json";
 //		String url = "https://api.mocki.io/v2/549a5d8b/MostPopularMovies";
+		String url = "http://localhost:8080/linguagens";
 
 		var http = new ClienteHTTP();
 		String json = http.buscaDados(url);
-		ExtratorDeConteudo extract = new ExtratorDeConteudoNasa();
+		ExtratorDeConteudo extract = new ExtratorDeConteudoIMDB();
 		List<Conteudo> conteudos = extract.extractContent(json);
 
 		var generate = new GenerateFigures();
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < conteudos.size(); i++) {
 			Conteudo conteudo = conteudos.get(i);
 
 			InputStream inputStream = new URL(conteudo.getUrlImg()).openStream();
